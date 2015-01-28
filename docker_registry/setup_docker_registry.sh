@@ -17,5 +17,6 @@ cleanup_containers() {
 
 cleanup_containers
 
+echo "run docker registry container..."
 docker run -d --name="docker-registry" -p 5000:5000 -e STORAGE_PATH=/registry -v /docker/registry:/registry registry
 
