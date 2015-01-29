@@ -11,17 +11,15 @@ Vagrant.configure(2) do |config|
   # Exclude docker_registry vm from proxying
   config.proxy.no_proxy = "192.168.0.16"
 
-  config.vm.provision "docker"
-
   # Have Vagrant install docker for us...
   config.vm.provision "docker"
 
   # ...and then we configure it ourselves. Otherwise we'd have a chicken-egg situation with adding 
   # the --insecure-registry and running containers from our private registry.
-  config.vm.provision "shell", path: "configure_docker.sh"
+  config.vm.provision "shell", run: "always", path: "configure_docker.sh"
 
   # Setup the registry container
-  config.vm.provision "shell", path: "setup_docker_registry.sh"
+  config.vm.provision "shell", run: "always", path: "setup_docker_registry.sh"
 
   config.vm.synced_folder "registry_store/", "/docker/registry"
 	
